@@ -41,6 +41,10 @@ async function createWindow() {
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
+  if (isDevelopment) {
+    win.webContents.openDevTools();
+}
+
 
   //检查更新
   handleUpdate(win, "D:/TBworkspace/test/electron-demo/dist_electron/")//electron-demo Setup 0.1.0.exe

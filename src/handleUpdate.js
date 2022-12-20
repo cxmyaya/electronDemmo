@@ -5,16 +5,21 @@ import {
 import {
 	ipcMain,dialog
 } from 'electron'
+const log = require('electron-log');
 let mainWindow = null;
+const isDev = process.env.NODE_ENV !== 'production'
 export function handleUpdate(window, feedUrl) {
 	mainWindow = window;
-	let message = {
+	let CheckMessage = {
 		error: '检查更新出错',
 		checking: '正在检查更新……',
 		updateAva: '检测到新版本，正在下载……',
 		updateNotAva: '现在使用的就是最新版本，不用更新',
 	};
-
+// 这里是为了在本地做应用升级测试使用
+if (isDev) {
+    autoUpdater.updateConfigPath = path.join(__dirname, 'dev-app-update.yml');
+}
 autoUpdater.autoDownload = false; //取消自动下载
 	//设置更新包的地址
 	autoUpdater.setFeedURL(feedUrl);
@@ -22,8 +27,9 @@ autoUpdater.autoDownload = false; //取消自动下载
 	autoUpdater.on('error', function(error) {
 		sendUpdateMessage({
 			cmd: 'error',
-			message: error
+			message: message.error + ":" + error
 		})
+        log.info(CheckMessage.error, error)
 	});
 	//监听开始检测更新事件
 	autoUpdater.on('checking-for-update', function(message) {
@@ -31,6 +37,7 @@ autoUpdater.autoDownload = false; //取消自动下载
 			cmd: 'checking-for-update',
 			message: message
 		})
+        log.info(CheckMessage.checking, message)
 	});
 	//监听发现可用更新事件
 	autoUpdater.on('update-available', function(message) {
@@ -38,6 +45,7 @@ autoUpdater.autoDownload = false; //取消自动下载
 			cmd: 'update-available',
 			message: message
 		})
+      
 		//新加内容
 		const options = {
 			type: 'info',
@@ -52,6 +60,7 @@ autoUpdater.autoDownload = false; //取消自动下载
 					cmd: 'confimUpdate',
 					message: message
 				})
+                log.info(CheckMessage.updateAva, message)
 				autoUpdater.downloadUpdate()
 			} else {
 				return;
@@ -68,6 +77,7 @@ autoUpdater.autoDownload = false; //取消自动下载
 			cmd: 'update-not-available',
 			message: message
 		})
+        log.info(CheckMessage.updateNotAva, message)
 	});
 
 	// 更新下载进度事件
@@ -76,6 +86,7 @@ autoUpdater.autoDownload = false; //取消自动下载
 			cmd: 'download-progress',
 			message: progressObj
 		})
+        log.info("下载进度", progressObj)
 	});
 	//监听下载完成事件
 	autoUpdater.on('update-downloaded', function(event, releaseNotes, releaseName, releaseDate, updateUrl) {
@@ -88,6 +99,7 @@ autoUpdater.autoDownload = false; //取消自动下载
 				updateUrl
 			}
 		})
+        log.info("下载完成-------------------")
 		//退出并安装更新包
 		autoUpdater.quitAndInstall();
 	});
