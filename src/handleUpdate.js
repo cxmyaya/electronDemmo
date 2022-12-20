@@ -5,6 +5,7 @@ import {
 import {
 	ipcMain,dialog
 } from 'electron'
+const path = require('path');
 const log = require('electron-log');
 let mainWindow = null;
 const isDev = process.env.NODE_ENV !== 'production'
