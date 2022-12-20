@@ -1,5 +1,5 @@
 {
-  "name": "electron-demo",
+  "name": "@cxmyaya/electron-demo",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,6 +11,9 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
     "publish": "vue-cli-service electron:build --win --x64 -p always"
+  },
+  "publishConfig": {
+    "@cxmyaya:registry": "https://npm.pkg.github.com"
   },
   "main": "background.js",
   "dependencies": {
@@ -51,5 +54,19 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "description": "## Project setup ``` npm install ```",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cxmyaya/electronDemmo.git"
+  },
+  "keywords": [
+    "cc980510"
+  ],
+  "author": "cxmyaya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cxmyaya/electronDemmo/issues"
+  },
+  "homepage": "https://github.com/cxmyaya/electronDemmo#readme"
 }
