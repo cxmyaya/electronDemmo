@@ -20,4 +20,4 @@ jobs:
       - name: Deploy 
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          folder: dist_electron # The folder the action should deploy.
+            files: "dist_electron/**"
